@@ -202,8 +202,19 @@ function drawshapesArray() {
                 obj.stroke();
                 obj.beginPath();
             })
-    }
-    else {
+        data.bezier.forEach(bezier=>{
+            obj.moveTo(data.points[bezier.a].x,data.points[bezier.a].y);
+            obj.bezierCurveTo(data.points[bezier.b].x, data.points[bezier.b].y, data.points[bezier.c].x, data.points[bezier.c].y, data.points[bezier.d].x,data.points[bezier.d].y)
+            obj.stroke();
+            obj.beginPath();
+
+
+        })
+
+        // ctx.moveTo(coordX[tempShape[1]],coordY[tempShape[1]]);
+        // ctx.bezierCurveTo(coordX[tempShape[2]],coordY[tempShape[2]],coordX[tempShape[3]],coordY[tempShape[3]],coordX[tempShape[4]],coordY[tempShape[4]]);
+
+
     }
 
 }

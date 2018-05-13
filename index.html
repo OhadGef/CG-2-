@@ -27,6 +27,13 @@
     <meta charset="utf-8" />
     <title>Exe2</title>
     <link href="style.css" rel="stylesheet" type="text/css"/>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 
 </head>
 <body>
@@ -35,17 +42,11 @@
     </header>
 
     <nav>
-        <ul>
-            <li class="file">
-                <!--<input type="file" name="fileName" id="fileID">-->
-                <input type="file" id="file-input" /><br>
-                <button type="button" value="Open" id="open" onClick=readSingleFile() class=button>Open</button></li>
-            <li> <button onClick=setOption(1)> Draw Line</button></li>
-            <li> <button onClick=setOption(2)> Draw Circle</button></li>
-            <li> <button onClick=setOption(3)> Draw ezier</button></li>
-            <li> <button onClick=setOption(4)> move</button></li>
-            <li onClick=setOption(5) class=button>zoom
-                <select name="cars" id="zoom">
+        <section id="shapes">
+            <button onClick=setOption(4) id="line"> move</button>
+
+            <button onClick=setOption(5) id="line" >zoom
+                <select name="cars" class="angle" id="zoom">
                     <option value="0.25">0.25</option>
                     <option value="0.5">0.5</option><br>
                     <option value="0.75">0.75</option>
@@ -55,23 +56,43 @@
                     <option value="2.5">2.5</option>
                     <option value="5">5</option>
                     <option value="10">10</option>
-                </select></li>
-            <li onClick=setOption(6) class=button >rotate
-                <input id="angle" type="number" name="angle" value="45" size=1px min="-360" max="360" /></li>
-            <li><button  onClick=setOption(7) class=button>MirrorX</button></li>
-            <li><button  onClick=setOption(8) class=button>MirrorY</button></li>
-            <li><button  onClick=setOption(9) class=button>ShearX</button></li>
-            <li><button  onClick=setOption(10) class=button>ShearY</button></li>
-            <li onClick=undo() class=button>Undo	</li>
-            <li><button type="reset" value="Reset" onClick="history.go(0)" class=button>Reset</button></li>
-            <li class=button><a href="javascript:void(0);" onclick="javascipt:window.open('images/help.pdf');" >help </a></li>
-        </ul>
+                </select></button>
+
+            <button type="button" onClick=setOption(6) id="Rotate">
+                Rotate <input  class="angle" id="angle" type="number" name="angle" value="90" size=1px min="-360" max="360"/>
+            </button>
+
+
+            <button  onClick=setOption(7) id="line" >MirrorX</button>
+
+            <button  onClick=setOption(8)  id="line">MirrorY</button>
+
+            <button  onClick=setOption(9)  id="line">ShearX</button>
+
+            <button  onClick=setOption(10)  id="line">ShearY</button>
+
+            <button onClick=undo() id="line">Undo</button>
+
+            <button type="button" value="Reset" onClick="history.go(0)" id="reset">Clear</button>
+        </section>
     </nav>
 
-    <section>
-        <canvas id="myCanvas" width="994" height="600"> </canvas>
-    </section>
+    <main>
+        <canvas id="myCanvas" width="1200" height="600"> </canvas>
+    </main>
 </div>
+
+<footer>
+    <section id="shapes">
+    <div class="file">
+        <input type="file" id="file-input"  />
+        <button type="button" value="Open" id="open" class="open" onClick=readSingleFile() >Open</button>
+    </div>
+    <button class="open" >
+        <a href="javascript:void(0);" onclick="javascipt:window.open('images/help.pdf');" >help </a>
+    </button>
+    </section>
+</footer>
 <script src="ex-2.js"></script>
 
 </body>
