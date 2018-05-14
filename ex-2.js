@@ -3,7 +3,6 @@ let obj;
 let width;
 let height;
 let lastAction = -1;
-let zIndex=0;
 let maxStart;
 let maxEnd;
 
@@ -34,23 +33,6 @@ window.onload = () => {
 
     obj = contextObj;
     document.onmousemove = mousePosition;
-
-    // canvas.addEventListener('click', (evt) => {
-    //
-    //     //Get the mouse click.
-    //     let rect = canvas.getBoundingClientRect();
-    //     const mouseClick = {
-    //         x: evt.clientX - rect.left,
-    //         y: evt.clientY - rect.top
-    //     };
-    //     clicks[index] = mouseClick;
-    //     // Drew the pixels from the mouse click.
-    //     // drawPixel(clicks[index].x, clicks[index].y,5);
-    //     index++;
-    //
-    //     console.log(mouseClick);
-    //
-    // })
 };
 
 
@@ -59,7 +41,7 @@ function readSingleFile() {
     const fileElement = document.getElementById('file-input').files;
 
     if (!fileElement.length) {
-        alert("Please select a file");
+        alert("Please choose a file");
         return;
     }
     const file = fileElement[0];
@@ -78,15 +60,11 @@ function readSingleFile() {
     reader.readAsText(file);
 }
 
-// document.getElementById('file-input')
-//     .addEventListener('change', readSingleFile, false);
-
-
 function fitImage() {
     const factorX = height / (maxPoint.x - minPoint.x);
     const factorY = width / (maxPoint.y - minPoint.y);
     const factor = Math.min(factorX, factorY);
-    zoom(factor);
+    Scaling(factor);
     const point = new Point(width / 2, height / 2);
     moveTo(point);
 
@@ -103,18 +81,18 @@ function moveTo(newPoint) {
 
 
 
-function zoom(zoom) {
-    const Sx = centerPoint.x * (1 - zoom);
-    const Sy = centerPoint.y * (1 - zoom);
+function Scaling(size) {
+    const Sx = centerPoint.x * (1 - size);
+    const Sy = centerPoint.y * (1 - size);
     data.points.forEach(point => {
-        point.x = point.x * zoom + Sx;
-        point.y = point.y * zoom + Sy;
+        point.x = point.x * size + Sx;
+        point.y = point.y * size + Sy;
     })
 
 }
 
 // Rotate function
-function rotate(angle) {
+function rotation(angle) {
     let tempX, tempY;
     let SaveCenterPoint = Object.assign({}, centerPoint);
     angle *= (Math.PI / 180);
@@ -154,25 +132,6 @@ function mirrorY(line) {
     setCenter();
 }
 
-// function mirrorZ() {
-//     let xOld = 0;
-//     let yOld = 0;
-//     zIndex = 300;
-//     alert(coordX[0] - coordZ[0] * Math.cos(Math.PI * (45 / 180)));
-//     for (let i = 0; i < coordX.length; i++) {
-//         xOld = coordX[i] - coordZ[i] * Math.cos(Math.PI * (45 / 180));
-//         coordX[i] = xOld + (zIndex - coordZ[i]) * Math.cos(Math.PI * (45 / 180));
-//     }
-//     for (let i = 0; i < coordY.length; i++) {
-//         yOld = coordY[i] - coordZ[i] * Math.sin(Math.PI * (45 / 180));
-//         coordY[i] = yOld + (zIndex - coordZ[i]) * Math.sin(Math.PI * (45 / 180));
-//         coordZ[i] = zIndex - coordZ[i];
-//     }
-//
-//     alert(coordX[0] + "/" + coordY[0] + "/" + coordZ[0]);
-//     setCenter();
-// }
-
 function setCenter() {
     maxPoint.x = Math.max.apply(Math, data.points.map(point => point.x));
     maxPoint.y = Math.max.apply(Math, data.points.map(point => point.y));
@@ -210,11 +169,6 @@ function drawshapesArray() {
 
 
         })
-
-        // ctx.moveTo(coordX[tempShape[1]],coordY[tempShape[1]]);
-        // ctx.bezierCurveTo(coordX[tempShape[2]],coordY[tempShape[2]],coordX[tempShape[3]],coordY[tempShape[3]],coordX[tempShape[4]],coordY[tempShape[4]]);
-
-
     }
 
 }
@@ -243,31 +197,17 @@ function mousePosition(e) {
     switch (option) {
          case 1: {
 
-             const maxStart1 = Math.max.apply(Math, data.line.map(line => line.start));
-             const maxStart2 = Math.max.apply(Math, data.circles.map(circle => circle.start));
-             maxStart = Math.max(maxStart1,maxStart2);
-             console.log(maxStart);
-
-             const maxEnd1 = Math.max.apply(Math, data.line.map(line => line.end));
-             const maxEnd2 = Math.max.apply(Math, data.circles.map(circle => circle.end));
-             maxEnd = Math.max(maxEnd1,maxEnd2);
-             console.log(maxEnd);
-
-             option =0;
          break;
          }
-        case 2: { // if Line or Circle
-            // console.log("case2")
-            // drowLineOrCircle(point);
+        case 2: {
             break;
         }
-            // break;
-        case 3: { // Bezier
-            // drowBezier(point);
+
+        case 3: {
             break;
         }
-            // break;
-        case 4: {//Move
+
+        case 4: {//Translation
             obj.moveTo(centerPoint.x, centerPoint.y);
             obj.lineTo(mousePoint.x, mousePoint.y);
             break;
@@ -336,103 +276,54 @@ function drowLineOrCircle(point) {
 function save() {
     let tempShape = new Array();
     switch (option) {
-        case 1: {
-            console.log("line");
 
-            // tempShape[0] = "line";
-            // tempShape[1] = coordX.length;
-            // coordX[coordX.length] = points[0].x;
-            // coordY[coordY.length] = points[0].y;
-            // tempShape[2] = coordX.length;
-            // coordX[coordX.length] = points[1].x;
-            // coordY[coordY.length] = points[1].y;
-            // tempShape[3] = color;
-            // shapesArray[shapesArray.length] = tempShape;
-            setCenter();
-        }
-            break;
-        case 2: {
-            console.log("circle");
-
-            // tempShape[0] = "circle";
-            // tempShape[1] = coordX.length;
-            // coordX[coordX.length] = points[0].x;
-            // coordY[coordY.length] = points[0].y;
-            // tempShape[2] = getDistance(points[0], points[1]);
-            // tempShape[3] = color;
-            // shapesArray[shapesArray.length] = tempShape;
-            setCenter();
-        }
-            break;
-        case 3: {
-            console.log("bezier");
-
-            // tempShape[0] = "bezier";
-            // tempShape[1] = coordX.length;
-            // coordX[coordX.length] = points[0].x;
-            // coordY[coordY.length] = points[0].y;
-            // tempShape[2] = coordX.length;
-            // coordX[coordX.length] = points[1].x;
-            // coordY[coordY.length] = points[1].y;
-            // tempShape[3] = coordX.length;
-            // coordX[coordX.length] = points[2].x;
-            // coordY[coordY.length] = points[2].y;
-            // tempShape[4] = coordX.length;
-            // coordX[coordX.length] = points[3].x;
-            // coordY[coordY.length] = points[3].y;
-            // tempShape[5] = color;
-            // shapesArray[shapesArray.length] = tempShape;
-            setCenter();
-
-        }
-            break;
 
         case 4: {
             lastX = centerPoint.x;
             lastY = centerPoint.y;
             moveTo(mousePoint);
-        }
             break;
+
+        }
         case 5: {
-            let zoomFactor = document.getElementById('zoom').value;
-            lastFactor = zoomFactor;
-            zoom(zoomFactor);
-        }
+            let scalingFactor = document.getElementById('scaling').value;
+            lastFactor = scalingFactor;
+            Scaling(scalingFactor);
             break;
+
+        }
         case 6: {
             let angle = document.getElementById('angle').value;
             lastX = mousePoint.x;
             lastY = mousePoint.y;
             lastAngle = angle;
-            rotate(angle);
-        }
+            rotation(angle);
             break;
+
+        }
         case 7: {
             mirrorX(mousePoint.x);
-            lastX = mousePoint.x;
-        }
             break;
+        }
+
         case 8: {
             mirrorY(mousePoint.y);
-            lastY = mousePoint.y;
-        }
             break;
-        // case 11: {
-        //     mirrorZ();
-        // }
-        //     break;
+
+        }
         case 9: {
             let factor = (mousePoint.x - centerPoint.x) / (mousePoint.y - maxPoint.y);
             lastFactor = factor;
             shearX(factor);
-        }
             break;
+
+        }
         case 10: {
             let factor = (mousePoint.y - centerPoint.y) / (mousePoint.x - minPoint.x);
             lastFactor = factor;
             shearY(factor);
-        }
             break;
+        }
 
 
     }

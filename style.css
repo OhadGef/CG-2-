@@ -7,173 +7,167 @@ Courser: computer Graphics.
 College: Shenkar
  */
 
-
 * {
-	margin: 0px;
-	padding: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
 #wrapper {
-	display: flex;
-	flex-direction: column;
-	margin:auto;
-	width:100%;
-	height:713px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 100%;
+    height: 713px;
 }
 
 nav {
-	width:100%;
-	background-color: black;
+    width: 100%;
+    background-color: black;
 }
+
 main {
-	height: 100%;
-	margin: auto;
-	display: flex;
-	justify-content: center;
-	padding-top: 5px;
-	padding-bottom: 5px;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
 
 }
+
 canvas {
-	background-color: white;
-	border:1px solid #d3d3d3;
-	background-color: #DCDCDC;
+    background-color: white;
+    border: 1px solid #d3d3d3;
+    background-color: #DCDCDC;
 }
 
 footer {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	align-items:flex-start;
-	align-content: center;
-	width: 100%;
-	height: 70px;
-	background-color: black;
-}
-
-.file{
-	display: flex;
-}
-#lineWidth {
-	display: flex;
-	justify-content: center;
-	align-items:center;
-	width: 120px;
-	font-size: 25px;
-	border-radius:10px;
-	font-family:"Agency FB";
-	background-color: white;
-	color:#000000;
-	text-align:center;
-	box-shadow: 1px 1px 5px 0px black inset;
-	margin-top: 15px;
-}
-#lineSize{
-	display: flex;
-	justify-content: center;
-	align-items:center;
-	color: white;
-	width: 120px;
-	font-size:25px;
-	border: none;
-	outline: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    align-content: center;
+    width: 100%;
+    height: 70px;
+    background-color: black;
 }
 
 #shapes {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	align-content: flex-start;
-	width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: flex-start;
+    width: 100%;
 }
 
 .buffer {
-	visibility: hidden;
+    visibility: hidden;
 }
 
 button {
-	color: white;
-	width: 100px;
-	height: 100px;
-	font-size:20px;
-	border: none;
-	outline: none;
+    color: white;
+    width: 100px;
+    height: 100px;
+    font-size: 20px;
+    border: none;
+    outline: none;
 }
-.open{
-	color: gray;
-	width: 100px;
-	height: 65px;
-	font-size:20px;
-	border: none;
-	outline: none;
-	border-radius: 10px;
-}
+
+
+
 #shapes button:focus {
-	background-color: #a6a6a6;
+    background-color: #a6a6a6;
 }
 
-#line {
-	display: flex;
-	justify-content: center;
-	background-color: black;
-	color: white;
-	width: 110px;
+#box {
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    width: 110px;
 }
 
-#line:hover {
-	background-color: #a6a6a6;
+#box:hover {
+    background-color: #a6a6a6;
 }
 
-#line:active {
-	background-color: #a6a6a6;
-	box-shadow: -1px -1px 10px 0px white inset;
+#box:active {
+    background-color: #a6a6a6;
+    box-shadow: -1px -1px 10px 0px white inset;
 }
 
-#Rotate {
-	display: flex;
-	justify-content: center;
-	background-color: black;
-	color: white;
-	width: 110px;
-	font-size: 15px;
+#box2 {
+    display: flex;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    width: 110px;
+    font-size: 15px;
 }
 
-#Rotate:hover {
-	background-color: #a6a6a6;
+#box2:hover {
+    background-color: #a6a6a6;
 }
 
-#Rotate:active {
-	background-color: #a6a6a6;
+#box2:active {
+    background-color: #a6a6a6;
 }
 
-.angle {
-	border-radius:10px;
-	width:50px;
-	height:30px;
-	font-family:"Agency FB";
-	background-color: #ffffff;
-	color:#000000;
-	text-align:center;
-	font-size:20px;
-	box-shadow: 1px 1px 5px 0px black inset;
-	margin-left: 10px;
+.selectInput {
+    border-radius: 10px;
+    width: 50px;
+    height: 30px;
+    font-family: "Agency FB";
+    background-color: #F5F5F5;
+    color: #000000;
+    text-align: center;
+    font-size: 20px;
+    box-shadow: 1px 1px 5px 0px black inset;
+    margin-left: 10px;
 }
+#footer-menu{
+    display: flex;
+    justify-content: space-around;
+    align-content: flex-start;
+    width: 100%;
+}
+.file {
+    display: flex;
+    background-color: gray;
+    height: 70px;
+    width: 255px;
+    padding-left: 7px;
+}
+.open {
+    display: flex;
+    justify-content: center;
+    margin-left: 10px;
+    margin-top: 15px;
+    width: 100px;
+    height: 35px;
+    font-size: 20px;
+    /*border-radius: 10px;*/
+}
+#file-input{
+    display: flex;
+    justify-content: center;
+    width: 125px;
+    height: 30px;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    margin-top: 15px;
 
-.option_button {
-	background-color: black;
-	color: white;
-	width: 100px;
 }
 
 #reset {
-	color:#000000;
-	background-color: red;
-	width: 100px;
-	height: 100px;
+    color: #000000;
+    background-color: red;
+    width: 100px;
+    height: 100px;
 }
 
-
 #reset:active {
-	box-shadow: 2px 2px 10px 0px inset;
+    box-shadow: 2px 2px 10px 0px inset;
 }
 
