@@ -27,7 +27,6 @@ let maxPoint = new Point();
 let minPoint = new Point();
 let centerPoint = new Point();
 let mousePoint = new Point();
-let points = []; //  array of points
 
 let drawLast=-1,lastX=0,lastY=0,lastFactor=1,lastAngle=0;
 
@@ -71,7 +70,6 @@ function fitImage() {
     scaling(factor);
     const point = new Point(width / 2, height / 2);
     moveTo(point);
-
 }
 
 function moveTo(newPoint) {
@@ -79,11 +77,8 @@ function moveTo(newPoint) {
         point.x += newPoint.x - centerPoint.x;
         point.y += newPoint.y - centerPoint.y;
     });
-
     setCenter();
 }
-
-
 
 function scaling(size) {
     const Sx = centerPoint.x * (1 - size);
@@ -92,7 +87,6 @@ function scaling(size) {
         point.x = point.x * size + Sx;
         point.y = point.y * size + Sy;
     })
-
 }
 
 // Rotate function
@@ -134,7 +128,6 @@ function mirrorX(line) {
 
 function mirrorY(line) {
     data.points.forEach(point => {point.y = 2 * line - point.y});
-
     setCenter();
 }
 
@@ -153,7 +146,6 @@ function setCenter() {
 function drawshapesArray() {
     obj.clearRect(0, 0, width, height);
     if (data != 0) {
-        // console.log(data);
         data.line.forEach(
             (line) => {
                 obj.moveTo(data.points[line.start].x, data.points[line.start].y);
@@ -187,153 +179,118 @@ function mousePosition(e) {
     // Get mouse position
     mousePoint.x = e.pageX - document.getElementById("myCanvas").offsetLeft;
     mousePoint.y = e.pageY - document.getElementById("myCanvas").offsetTop;
-    let point = new Point(mousePoint.x, mousePoint.y);
     obj.setLineDash([0, 0]);
+    drawshapesArray();
+    obj.beginPath();
 
-    // if (option > 3) {
-        drawshapesArray();
-        obj.beginPath();
-    // }
     switch (option) {
-         case 1: {
-
-         break;
-         }
-        case 2: {
-            break;
-        }
-
-        case 3: {
-            break;
-        }
-
-        case 4: {//Translation
+        case 1: {//Translation
             obj.moveTo(centerPoint.x, centerPoint.y);
             obj.lineTo(mousePoint.x, mousePoint.y);
             break;
         }
-
-
-        case 7: {//Mirror on axis X
+        case 4: {//Mirror on axis X
             obj.beginPath();
             obj.moveTo(mousePoint.x, mousePoint.y - 300);
             obj.lineTo(mousePoint.x, mousePoint.y + 300);
             break;
         }
-
-        case 8: {//Mirror on axis Y
+        case 5: {//Mirror on axis Y
             obj.beginPath();
             obj.moveTo(mousePoint.x - 300, mousePoint.y);
             obj.lineTo(mousePoint.x + 300, mousePoint.y);
             break;
         }
-        case 9: {//Shear on axis X
+        case 6: {//Shear on axis X
             obj.moveTo(mousePoint.x, mousePoint.y);
             obj.lineTo(centerPoint.x, maxPoint.y);
             break
         }
-        case 10: {//Shear on axis Y
+        case 7: {//Shear on axis Y
             obj.moveTo(mousePoint.x, mousePoint.y);
             obj.lineTo(minPoint.x, centerPoint.y);
             break;
         }
-
     }
 
-    if (option > 3) {
         obj.stroke();
-        document.getElementById("myCanvas").onclick = () => save()
-    }
+        document.getElementById("myCanvas").onclick = () => save();
     return true;
 }
 
-
 function undo(){
-    switch(drawLast)
-    {
-        case 1: case 2:case 3:
-    { // shapesArray: line, circle and bezier - remove last shape
-        shapesArray.splice(shapesArray.length-1,1);
-    }break;
-        case 4:
+    switch(drawLast) {
+        case 1:
         {
             let lastPoint=new Point(lastX,lastY);
             moveTo(lastPoint);
             break;
         }
+        case 2:
+            {scaling(1/lastFactor); break;}
+        case 3:
+            {rotation(-lastAngle); break;}
+        case 4:
+            {mirrorX(lastX); break;}
         case 5:
-        {scaling(1/lastFactor); break;}
+            {mirrorY(lastY); break;}
         case 6:
-        {rotation(-lastAngle); break;}
+            {shearX(-lastFactor); break;}
         case 7:
-        {mirrorX(lastX); break;}
-        case 8:
-        {mirrorY(lastY); break;}
-        case 9:
-        {shearX(-lastFactor); break;}
-        case 10:
-        {shearY(-lastFactor); break;}
-
+            {shearY(-lastFactor); break;}
     }
     drawshapesArray();
     drawLast=-1;
 }
 
 function save() {
-    let tempShape = new Array();
-    switch (option) {
 
-        case 4: {
+    switch (option) {
+        case 1: {
             lastX = centerPoint.x;
             lastY = centerPoint.y;
             moveTo(mousePoint);
             break;
-
         }
-        case 5: {
+        case 2: {
             let scalingFactor = document.getElementById('scaling').value;
             lastFactor = scalingFactor;
             scaling(scalingFactor);
             break;
-
         }
-        case 6: {
+        case 3: {
             let angle = document.getElementById('angle').value;
             lastX = mousePoint.x;
             lastY = mousePoint.y;
             lastAngle = angle;
             rotation(angle);
             break;
-
         }
-        case 7: {
+        case 4: {
             mirrorX(mousePoint.x);
             lastX = mousePoint.x;
-
             break;
         }
 
-        case 8: {
+        case 5: {
             mirrorY(mousePoint.y);
             lastY = mousePoint.y;
             break;
 
         }
-        case 9: {
+        case 6: {
             let factor = (mousePoint.x - centerPoint.x) / (mousePoint.y - maxPoint.y);
             lastFactor = factor;
             shearX(factor);
             break;
 
         }
-        case 10: {
+        case 7: {
             let factor = (mousePoint.y - centerPoint.y) / (mousePoint.x - minPoint.x);
             lastFactor = factor;
             shearY(factor);
             break;
         }
-
-
     }
     drawshapesArray();
     pointsNumber = 0;
