@@ -1,3 +1,12 @@
+/*
+Date: 13/05/2018
+Authors:
+	Nadav Gilron 200329563
+	Ohad Gefen	 301227622
+Courser: computerGraphics.
+College: Shenkar
+ */
+
 let data = [];
 let obj;
 let width;
@@ -46,10 +55,7 @@ function readSingleFile() {
     const reader = new FileReader();
 
     reader.onload = (e) => {
-        data = e.target.result;
-        console.log(data);
-        data=JSON.parse(data);
-        console.log(data);
+        data = JSON.parse(e.target.result);
         setCenter();
         fitImage();
         drawshapesArray();
@@ -166,8 +172,6 @@ function drawshapesArray() {
             obj.bezierCurveTo(data.points[bezier.b].x, data.points[bezier.b].y, data.points[bezier.c].x, data.points[bezier.c].y, data.points[bezier.d].x,data.points[bezier.d].y)
             obj.stroke();
             obj.beginPath();
-
-
         })
     }
 
@@ -178,22 +182,18 @@ function setOption(num) {
     pointsNumber = 0;
 }
 
-
-
 // Gets mouse position
 function mousePosition(e) {
-  console.log(option);
     // Get mouse position
     mousePoint.x = e.pageX - document.getElementById("myCanvas").offsetLeft;
     mousePoint.y = e.pageY - document.getElementById("myCanvas").offsetTop;
     let point = new Point(mousePoint.x, mousePoint.y);
     obj.setLineDash([0, 0]);
 
-    if (option > 3) {
+    // if (option > 3) {
         drawshapesArray();
         obj.beginPath();
-        obj.setLineDash([5, 10]);
-    }
+    // }
     switch (option) {
          case 1: {
 
@@ -247,30 +247,6 @@ function mousePosition(e) {
     return true;
 }
 
-function drowLineOrCircle(point) {
-    for (i = pointsNumber; i < 3; i++)
-        points[i] = point;
-
-    drawshapesArray();
-    ctx.beginPath();
-    // ctx.strokeStyle=color;
-
-    if (option == 1) { //if a line
-        ctx.moveTo(points[0].x, points[0].y);
-        ctx.lineTo(points[1].x, points[1].y);
-    }
-
-    if (option == 2) { //if a circle
-        ctx.arc(points[0].x, points[0].y, getDistance(points[0], points[1]), 0, 2 * Math.PI, false);
-    }
-    ctx.stroke();
-    document.getElementById("myCanvas").onclick = function () {
-        pointsNumber++;
-    }
-    if (pointsNumber == 2) {
-        save();
-    }
-}
 
 function undo(){
     switch(drawLast)
@@ -306,7 +282,6 @@ function undo(){
 function save() {
     let tempShape = new Array();
     switch (option) {
-
 
         case 4: {
             lastX = centerPoint.x;
