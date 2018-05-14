@@ -3,8 +3,6 @@ let obj;
 let width;
 let height;
 let lastAction = -1;
-let maxStart;
-let maxEnd;
 
 
 
@@ -48,10 +46,10 @@ function readSingleFile() {
     const reader = new FileReader();
 
     reader.onload = (e) => {
-        data = JSON.parse(e.target.result);
-
-
-
+        data = e.target.result;
+        console.log(data);
+        data=JSON.parse(data);
+        console.log(data);
         setCenter();
         fitImage();
         drawshapesArray();
@@ -64,7 +62,7 @@ function fitImage() {
     const factorX = height / (maxPoint.x - minPoint.x);
     const factorY = width / (maxPoint.y - minPoint.y);
     const factor = Math.min(factorX, factorY);
-    Scaling(factor);
+    scaling(factor);
     const point = new Point(width / 2, height / 2);
     moveTo(point);
 
@@ -81,7 +79,7 @@ function moveTo(newPoint) {
 
 
 
-function Scaling(size) {
+function scaling(size) {
     const Sx = centerPoint.x * (1 - size);
     const Sy = centerPoint.y * (1 - size);
     data.points.forEach(point => {
@@ -124,11 +122,13 @@ function shearY(factor) {
 // Mirror functions
 function mirrorX(line) {
     data.points.forEach(point => { point.x = 2 * line - point.x});
+    lastX = line;
     setCenter();
 }
 
 function mirrorY(line) {
     data.points.forEach(point => {point.y = 2 * line - point.y});
+
     setCenter();
 }
 
@@ -147,7 +147,7 @@ function setCenter() {
 function drawshapesArray() {
     obj.clearRect(0, 0, width, height);
     if (data != 0) {
-        console.log(data.length);
+        // console.log(data);
         data.line.forEach(
             (line) => {
                 obj.moveTo(data.points[line.start].x, data.points[line.start].y);
@@ -272,6 +272,36 @@ function drowLineOrCircle(point) {
     }
 }
 
+function undo(){
+    switch(drawLast)
+    {
+        case 1: case 2:case 3:
+    { // shapesArray: line, circle and bezier - remove last shape
+        shapesArray.splice(shapesArray.length-1,1);
+    }break;
+        case 4:
+        {
+            let lastPoint=new Point(lastX,lastY);
+            moveTo(lastPoint);
+            break;
+        }
+        case 5:
+        {scaling(1/lastFactor); break;}
+        case 6:
+        {rotation(-lastAngle); break;}
+        case 7:
+        {mirrorX(lastX); break;}
+        case 8:
+        {mirrorY(lastY); break;}
+        case 9:
+        {shearX(-lastFactor); break;}
+        case 10:
+        {shearY(-lastFactor); break;}
+
+    }
+    drawshapesArray();
+    drawLast=-1;
+}
 
 function save() {
     let tempShape = new Array();
@@ -288,7 +318,7 @@ function save() {
         case 5: {
             let scalingFactor = document.getElementById('scaling').value;
             lastFactor = scalingFactor;
-            Scaling(scalingFactor);
+            scaling(scalingFactor);
             break;
 
         }
@@ -303,11 +333,14 @@ function save() {
         }
         case 7: {
             mirrorX(mousePoint.x);
+            lastX = mousePoint.x;
+
             break;
         }
 
         case 8: {
             mirrorY(mousePoint.y);
+            lastY = mousePoint.y;
             break;
 
         }
